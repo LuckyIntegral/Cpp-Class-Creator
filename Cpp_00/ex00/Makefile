@@ -1,19 +1,21 @@
 CPP			= c++
 NAME		= megaphone
 RM			= rm -rf
+
 CPPFLAGS	= -Wall -Wextra -Werror -MD -MP -std=c++98
 
-SRCS	=
+SRCS	= megaphone.cpp
 
-DEPS		= $(SRCS:%.c=%.d)
-OBJS		= $(SRCS:%.c=%.o)
+OBJSDIR	= objs
+OBJS	= $(addprefix $(OBJSDIR)/, $(SRCS:.cpp=.o))
+DEPS	= $(addprefix $(OBJSDIR)/, $(SRCS:.cpp=.d))
 
 all		: $(NAME)
 
 $(NAME)	: ${OBJS}
-		$(CPP) $(CPPFLAGS) -o $@ $^
+		$(CPP) -o $@ $^
 
-$(OBJSDIR)/%.o	: %.c
+objs/%.o: %.cpp
 		@mkdir -p $(dir $@)
 		${CPP} ${CPPFLAGS} -c $< -o $@
 
