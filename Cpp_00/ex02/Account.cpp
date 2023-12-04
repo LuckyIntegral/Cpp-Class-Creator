@@ -1,4 +1,6 @@
 #include "Account.hpp"
+#include <ctime>
+#include <iomanip>
 #include <iostream>
 #include <locale>
 
@@ -10,7 +12,21 @@ int Account::_totalNbWithdrawals = 0;
 
 void	Account::_displayTimestamp( void )
 {
-	std::cout << "[19920104_091532] ";
+	std::time_t time;
+	std::tm *tm;
+
+	time = std::time(NULL);
+	tm = std::localtime(&time);
+	std::cout << '['
+		<< std::setw(2) << std::setfill('0') << tm->tm_year + 1900
+		<< std::setw(2) << std::setfill('0') << tm->tm_mday
+		<< std::setw(2) << std::setfill('0') << tm->tm_mon + 1
+		<< '_'
+		<< std::setw(2) << std::setfill('0') << tm->tm_hour
+		<< std::setw(2) << std::setfill('0') << tm->tm_min
+		<< std::setw(2) << std::setfill('0') << tm->tm_sec
+		<< "] ";
+	// std::cout << "[19920104_091532] ";
 }
 
 int		Account::getNbAccounts( void )
@@ -47,8 +63,8 @@ Account::Account( int initial_deposit )
 
 	Account::_displayTimestamp();
 	std::cout << "index:" << this->_accountIndex << ";"
-	<< "amount:" << this->checkAmount() << ";"
-	<< "created" << std::endl;
+		<< "amount:" << this->checkAmount() << ";"
+		<< "created" << std::endl;
 }
 
 Account::~Account( void )
@@ -56,8 +72,8 @@ Account::~Account( void )
 	// lust logs
 	Account::_displayTimestamp();
 	std::cout << "index:" << this->_accountIndex << ';'
-	<< "amount:" << this->checkAmount() << ';'
-	<< "closed" << std::endl;
+		<< "amount:" << this->checkAmount() << ';'
+		<< "closed" << std::endl;
 }
 
 void	Account::makeDeposit( int deposit )
@@ -71,10 +87,10 @@ void	Account::makeDeposit( int deposit )
 
 	Account::_displayTimestamp();
 	std::cout << "index:" << this->_accountIndex << ';'
-	<< "p_amount:" << this->checkAmount() - deposit << ';'
-	<< "deposit:" << deposit << ';'
-	<< "amount:" << this->checkAmount() << ';'
-	<< "nb_deposits:" << this->_nbDeposits << std::endl;
+		<< "p_amount:" << this->checkAmount() - deposit << ';'
+		<< "deposit:" << deposit << ';'
+		<< "amount:" << this->checkAmount() << ';'
+		<< "nb_deposits:" << this->_nbDeposits << std::endl;
 
 }
 
@@ -85,8 +101,8 @@ bool	Account::makeWithdrawal( int withdrawal )
 		// declain
 		Account::_displayTimestamp();
 		std::cout << "index:" << this->_accountIndex << ';'
-		<< "p_amount:" << this->checkAmount() << ';'
-		<< "withdrawal:" << "refused" << std::endl;
+			<< "p_amount:" << this->checkAmount() << ';'
+			<< "withdrawal:" << "refused" << std::endl;
 
 		return (false);
 	}
@@ -101,10 +117,10 @@ bool	Account::makeWithdrawal( int withdrawal )
 
 		Account::_displayTimestamp();
 		std::cout << "index:" << this->_accountIndex << ';'
-		<< "p_amount:" << this->checkAmount() + withdrawal << ';'
-		<< "withdrawal:" << withdrawal << ';'
-		<< "amount:" << this->checkAmount() << ';'
-		<< "nb_withdrawals:" << this->_nbWithdrawals << std::endl;
+			<< "p_amount:" << this->checkAmount() + withdrawal << ';'
+			<< "withdrawal:" << withdrawal << ';'
+			<< "amount:" << this->checkAmount() << ';'
+			<< "nb_withdrawals:" << this->_nbWithdrawals << std::endl;
 
 		return (true);
 	}
@@ -120,9 +136,9 @@ void	Account::displayStatus( void ) const
 	// just logs
 	Account::_displayTimestamp();
 	std::cout << "index:" << this->_accountIndex << ";"
-	<< "amount:" << this->checkAmount() << ";"
-	<< "deposits:" << this->_nbDeposits << ";"
-	<< "withdrawals:" << this->_nbWithdrawals << std::endl;
+		<< "amount:" << this->checkAmount() << ";"
+		<< "deposits:" << this->_nbDeposits << ";"
+		<< "withdrawals:" << this->_nbWithdrawals << std::endl;
 }
 
 void	Account::displayAccountsInfos( void )
@@ -130,7 +146,7 @@ void	Account::displayAccountsInfos( void )
 	// just logs
 	Account::_displayTimestamp();
 	std::cout << "accounts:" << Account::getNbAccounts() << ";"
-	<< "total:" << Account::getTotalAmount() << ";"
-	<< "deposits:" << Account::getNbDeposits() << ";"
-	<< "withdrawals:" << Account::getNbWithdrawals() << std::endl;
+		<< "total:" << Account::getTotalAmount() << ";"
+		<< "deposits:" << Account::getNbDeposits() << ";"
+		<< "withdrawals:" << Account::getNbWithdrawals() << std::endl;
 }
