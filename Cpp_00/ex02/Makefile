@@ -1,5 +1,5 @@
 CPP			= c++
-NAME		= dream
+NAME		= gbu_bank
 RM			= rm -rf
 
 CPPFLAGS	= -Wall -Wextra -Werror -MD -MP -std=c++98
@@ -27,6 +27,6 @@ fclean	:
 
 re		: fclean all
 
--include $(DEPS_B) $(DEPS)
+-include $(DEPS)
 
 .PHONY: all clean fclean re

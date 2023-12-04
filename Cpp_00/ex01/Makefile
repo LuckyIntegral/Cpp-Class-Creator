@@ -27,6 +27,6 @@ fclean	:
 
 re		: fclean all
 
--include $(DEPS_B) $(DEPS)
+-include $(DEPS)
 
 .PHONY: all clean fclean re
