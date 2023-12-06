@@ -29,11 +29,16 @@ int	main( void )
 	std::cout << "\nRight now again only '" << heapOne->getName()
 		<< "' and '" << stackOne.getName() << "' are alive\n" << std::endl;
 
+	// prooves
+	heapOne->announce();
+	stackOne.announce();
+
 	// first dies heap zombie Charlie
 	delete heapOne;
 
 	// for visualization only
 	std::cout << "\nRight now only '" << stackOne.getName() << "' is alive\n" << std::endl;
+	stackOne.getName();
 
 	// Rick dies automatically at the end of the scope
 	return (0);
