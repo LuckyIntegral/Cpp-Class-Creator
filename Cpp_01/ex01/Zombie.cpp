@@ -6,7 +6,10 @@ Zombie::Zombie( void )
 	this->_name = "Default Morty";
 }
 
-Zombie::Zombie( const std::string name ): _name(name) { }
+Zombie::Zombie( const std::string name )
+{
+	this->_name = name;
+}
 
 Zombie::~Zombie()
 {
