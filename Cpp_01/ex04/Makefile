@@ -1,10 +1,10 @@
 CPP			= c++
-NAME		= hamsters
+NAME		= replace
 RM			= rm -rf
 
 CPPFLAGS	= -Wall -Wextra -Werror -MD -MP -std=c++98
 
-SRCS	= main.cpp Weapon.cpp HumanA.cpp HumanB.cpp
+SRCS	= main.cpp
 
 OBJSDIR	= objs
 OBJS	= $(addprefix $(OBJSDIR)/, $(SRCS:.cpp=.o))

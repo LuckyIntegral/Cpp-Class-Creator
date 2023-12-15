@@ -4,6 +4,7 @@
 #include "Weapon.hpp"
 
 #define DEFAULT_NAME "Nick"
+#define DEFAULT_WEAPON "fists"
 
 class HumanB
 {
@@ -12,13 +13,13 @@ private:
 	std::string	_name;
 
 public:
-	HumanB( std::string &name, Weapon *weapon );
+	HumanB( std::string name );
 	~HumanB();
 
 	void		attack( void ) const;
 
 	Weapon		getWeapon( void ) const;
 	std::string	getName( void ) const;
-	void		setWeapon( const Weapon weapon );
-	void		setName( const std::string type );
+	void		setWeapon( Weapon &weapon );
+	void		setName( const std::string &type );
 };

@@ -2,8 +2,8 @@
 #include "HumanA.hpp"
 #include <iostream>
 
-HumanA::HumanA( std::string &name, Weapon &weapon )
-	: _name(name), _weapon(weapon) {}
+HumanA::HumanA( std::string name, Weapon &weapon )
+	: _weapon(weapon), _name(name) {}
 HumanA::~HumanA() {}
 
 void	HumanA::attack( void ) const
@@ -22,7 +22,7 @@ std::string	HumanA::getName( void ) const
 	return (this->_name);
 }
 
-void	HumanA::setWeapon( const Weapon weapon )
+void	HumanA::setWeapon( Weapon &weapon )
 {
 	this->_weapon = weapon;
 }
