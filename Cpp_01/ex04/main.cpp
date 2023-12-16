@@ -10,6 +10,8 @@ std::string	replace(std::string line, std::string s1, std::string s2)
 
 	std::size_t	begin = 0;
 	std::size_t	end = 0;
+	if (s1 == "")
+		return (line);
 	while (end != std::string::npos)
 	{
 		std::size_t	end = line.find(s1, begin);
