@@ -1,5 +1,5 @@
 CPP			= c++
-NAME		= harl
+NAME		= harlFilter
 RM			= rm -rf
 
 CPPFLAGS	= -Wall -Wextra -Werror -MD -MP -std=c++98
