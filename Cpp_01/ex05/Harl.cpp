@@ -20,12 +20,11 @@ void	Harl::complain( std::string level )
 		&Harl::warning,
 		&Harl::error
 	};
-	Harl	harl;
 
 	for (size_t i = 0; i < sizeof (levels) / sizeof (std::string); i++)
 		if (levels[i] == level)
 		{
-			(harl.*foos[i])();
+			(this->*foos[i])();
 			return ;
 		}
 
