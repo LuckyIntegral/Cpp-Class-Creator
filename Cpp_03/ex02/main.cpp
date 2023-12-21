@@ -6,7 +6,7 @@
 /*   By: vfrants <vfrants@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 13:27:45 by vfrants           #+#    #+#             */
-/*   Updated: 2023/12/21 17:16:03 by vfrants          ###   ########.fr       */
+/*   Updated: 2023/12/21 17:37:17 by vfrants          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ int	main( void )
 		log(*bob);
 		// bob->highFivesGuys();
 		// log(*bob);
+		delete bob;
 	}
 	return (0);
 }
