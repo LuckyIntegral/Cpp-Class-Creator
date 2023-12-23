@@ -7,8 +7,8 @@ CPPFLAGS	= -Wall -Wextra -Werror -MD -MP -std=c++98
 SRCS	= ScavTrap.cpp ClapTrap.cpp main.cpp
 
 OBJSDIR	= objs
-OBJS	= $(addprefix $(OBJSDIR)/, $(SRCS:.cpp=.o))
-DEPS	= $(addprefix $(OBJSDIR)/, $(SRCS:.cpp=.d))
+OBJS	= $(addprefix $(OBJS_DIR)/, $(SRCS:.cpp=.o))
+DEPS	= $(addprefix $(OBJS_DIR)/, $(SRCS:.cpp=.d))
 
 all		: $(NAME)
 
@@ -20,10 +20,10 @@ objs/%.o: %.cpp
 		${CPP} ${CPPFLAGS} -c $< -o $@
 
 clean	:
-		$(RM) $(OBJSDIR)
+		$(RM) $(OBJS_DIR)
 
 fclean	:
-		$(RM) $(OBJSDIR) $(NAME)
+		$(RM) $(OBJS_DIR) $(NAME)
 
 re		: fclean all
 
