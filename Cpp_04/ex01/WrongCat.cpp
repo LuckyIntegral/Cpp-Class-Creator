@@ -6,7 +6,7 @@
 /*   By: vfrants <vfrants@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 17:58:45 by vfrants           #+#    #+#             */
-/*   Updated: 2023/12/23 21:37:26 by vfrants          ###   ########.fr       */
+/*   Updated: 2023/12/23 22:58:44 by vfrants          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ WrongCat::WrongCat() : WrongAnimal() {
     std::cout << "WrongCat: default constructor has been called" << std::endl;
 }
 
-WrongCat::WrongCat( const WrongCat &other ) {
+WrongCat::WrongCat( const WrongCat &other ) : WrongAnimal() {
     std::cout << "WrongCat: copy constructor has been called" << std::endl;
     *this = other;
 }
@@ -36,4 +36,3 @@ WrongCat &WrongCat::operator=( const WrongCat &other ) {
     this->_type = other.getType();
     return (*this);
 }
-

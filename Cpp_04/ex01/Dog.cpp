@@ -6,7 +6,7 @@
 /*   By: vfrants <vfrants@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 12:26:49 by vfrants           #+#    #+#             */
-/*   Updated: 2023/12/23 12:32:09 by vfrants          ###   ########.fr       */
+/*   Updated: 2023/12/23 22:58:34 by vfrants          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ Dog::Dog( void ) : Animal() {
     this->_brain = new Brain();
 }
 
-Dog::Dog( const Dog &other ) {
+Dog::Dog( const Dog &other ) : Animal() {
     std::cout << "Dog: copy constructor has been called" << std::endl;
     *this = other;
 }
