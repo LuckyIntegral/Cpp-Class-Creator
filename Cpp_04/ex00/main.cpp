@@ -6,7 +6,7 @@
 /*   By: vfrants <vfrants@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:13:31 by vfrants           #+#    #+#             */
-/*   Updated: 2023/12/23 01:18:30 by vfrants          ###   ########.fr       */
+/*   Updated: 2023/12/23 22:56:45 by vfrants          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ int main( )
         j->makeSound();
         meta->makeSound();
 
-        delete meta;
         delete i;
         delete j;
+        delete meta;
     }
     std::cout << "\nTest 2\n" << std::endl;
     {
@@ -47,8 +47,8 @@ int main( )
         i->makeSound(); //will output the cat sound!
         meta->makeSound();
 
-        delete meta;
         delete i;
+        delete meta;
     }
     std::cout << "\nTest 3\n" << std::endl;
     {
@@ -57,7 +57,7 @@ int main( )
 
         std::cout << i.getType() << " " << std::endl;
 
-        i.makeSound(); //will output the cat sound!
+        i.makeSound();
         meta.makeSound();
     }
 
