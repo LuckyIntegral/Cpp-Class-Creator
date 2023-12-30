@@ -28,5 +28,26 @@ int	main( void ) {
 		delete me;
 		delete src;
 	}
+	std::cout << "Logs 2" << std::endl;
+	{
+		IMateriaSource	*src = new MateriaSource();
+		for (int i = 0; i < 4; ++i)
+			src->learnMateria(new Ice());
+
+		ICharacter	*me = new Character("me");
+		std::cout << "tmp = " << src->createMateria("random") << std::endl;
+
+		for (int i = 0; i < 4; ++i)
+			me->equip(src->createMateria("ice"));
+
+		ICharacter	*bob = new Character("bob");
+		me->use(0, *bob);
+		me->use(1, *bob);
+		me->use(42, *bob);
+
+		delete bob;
+		delete me;
+		delete src;
+	}
 	return (0);
 }
