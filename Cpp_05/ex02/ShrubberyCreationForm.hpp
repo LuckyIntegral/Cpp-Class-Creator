@@ -25,6 +25,11 @@ public:
 
 	void	execute( Bureaucrat const & executor ) const;
 
+	class CannotOpenFile : public std::exception {
+	public:
+		const char	*what( void ) const throw();
+	};
+
     ShrubberyCreationForm    &operator=( const ShrubberyCreationForm &other );
 };
 

@@ -1,5 +1,6 @@
 
 #include <iostream>
+#include <locale>
 
 #include "RobotomyRequestForm.hpp"
 
@@ -19,7 +20,17 @@ RobotomyRequestForm::~RobotomyRequestForm() {}
 
 void	RobotomyRequestForm::execute( Bureaucrat const & executor ) const {
 	this->validateExecution(executor);
-	// to do later
+	std::cout << "*drilling noises*" << std::endl;
+	std::cout << "*drilling noises*" << std::endl;
+	std::cout << "*drilling noises*" << std::endl;
+	if (std::time(NULL) % 2)
+		throw RobotomyFailure();
+	std::cout << this->_target
+		<< " has been robotomized successfully" << std::endl;
+}
+
+const char	*RobotomyRequestForm::RobotomyFailure::what() const throw() {
+	return ("robotomy cannot be robotomized successfully");
 }
 
 RobotomyRequestForm &RobotomyRequestForm::operator=( const RobotomyRequestForm &other ) {

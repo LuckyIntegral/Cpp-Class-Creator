@@ -25,6 +25,11 @@ public:
 
 	void	execute( Bureaucrat const & executor ) const;
 
+	class RobotomyFailure : public std::exception {
+	public:
+		const char	*what( void ) const throw();
+	};
+
     RobotomyRequestForm    &operator=( const RobotomyRequestForm &other );
 };
 

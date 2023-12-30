@@ -1,7 +1,11 @@
 
+#include <exception>
+#include <fstream>
 #include <iostream>
 
 #include "ShrubberyCreationForm.hpp"
+
+const std::string TREE = "       _-_\n    /~~   ~~\\\n /~~         ~~\\\n{               }\n \\  _-     -_  /\n   ~  \\\\ //  ~\n_- -   | | _- _\n  _ -  | |   -_\n      // \\\\";
 
 ShrubberyCreationForm::ShrubberyCreationForm()
 	: AForm(SHRB_NAME, SHRB_GTS_REQ, SHRB_GTE_REQ),
@@ -19,7 +23,16 @@ ShrubberyCreationForm::~ShrubberyCreationForm() {}
 
 void	ShrubberyCreationForm::execute( Bureaucrat const & executor ) const {
 	this->validateExecution(executor);
-	// to do later
+	std::ofstream	file((this->_target + "_shrubbery").c_str(), std::ios_base::app);
+
+	if (!file.is_open())
+		throw ShrubberyCreationForm::CannotOpenFile();
+	file << '\n' << TREE << '\n' << std::endl;
+	file.close();
+}
+
+const char	*ShrubberyCreationForm::CannotOpenFile::what() const throw() {
+	return ("cannot open file");
 }
 
 ShrubberyCreationForm &ShrubberyCreationForm::operator=( const ShrubberyCreationForm &other ) {
