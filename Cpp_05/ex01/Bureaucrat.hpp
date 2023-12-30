@@ -6,9 +6,11 @@
 /*   By: vfrants <vfrants@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 11:19:16 by vfrants           #+#    #+#             */
-/*   Updated: 2023/12/30 18:39:57 by vfrants          ###   ########.fr       */
+/*   Updated: 2023/12/30 18:47:43 by vfrants          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#pragma once
 
 #ifndef BUREAUCRAT_HPP
 # define BUREAUCRAT_HPP
@@ -17,6 +19,10 @@
 # include <exception>
 # include <ostream>
 # include <string>
+
+# include "Form.hpp"
+
+class Form;
 
 class Bureaucrat {
 protected:
@@ -30,6 +36,7 @@ public:
 
 	void	incrementGrade( void );
 	void	decrementGrade( void );
+	void	signForm( Form &fm );
 
 	void				setGrade( int grade );
 	int					getGrade( void ) const;
