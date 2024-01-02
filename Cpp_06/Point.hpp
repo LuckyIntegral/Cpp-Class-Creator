@@ -6,28 +6,20 @@
 
 # include <string>
 
-# define DEFAULT_X
-# define DEFAULT_Y
-# define DEFAULT_Z
+# define DEFAULT_HELLO
 
 class Point {
 protected:
-	float	_x;
-	float	_y;
-	float	_z;
+	std::string	_hello;
 
 public:
 	Point();
-	Point( float x, float y, float z );
+	Point( std::string hello );
 	Point( const Point &other );
 	~Point();
 
-	float getX( void ) const;
-	void setX( const float x );
-	float getY( void ) const;
-	void setY( const float y );
-	float getZ( void ) const;
-	void setZ( const float z );
+	std::string getHello( void ) const;
+	void setHello( const std::string hello );
 
     Point &operator=( const Point &other );
 };

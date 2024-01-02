@@ -1,4 +1,3 @@
-#!/usr/bin/zsh
 
 declare_accessor() {
     local type="$1"
@@ -96,11 +95,14 @@ EOF
         implement_accessors "${@[i]}" "${@[i + 1]}" "${1}" >> "$filename"
     done
 
-	cat <<EOF >> "$filename"
-${1} &${1}::operator=( const ${1} &other ) {
-    return (*this);
-}
-EOF
+	echo "${1} &${1}::operator=( const ${1} &other ) {" >> "$filename"
+	if (( $# > 1 )); then
+        for ((i = 2; i <= $#; i += 2)); do
+            echo "	this->_${@[i + 1]} = other._${@[i + 1]};" >> "$filename"
+        done
+    fi
+	echo '	return (*this);' >> "$filename"
+	echo '}' >> "$filename"
 }
 
 make_hpp() {
@@ -187,5 +189,3 @@ form() {
 
     git add "$1.cpp" "$1.hpp"
 }
-
-form "$@"
