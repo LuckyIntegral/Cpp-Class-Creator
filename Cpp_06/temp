@@ -1,14 +1,5 @@
 #!/usr/bin/zsh
 
-# export ZSH="$HOME/.oh-my-zsh"
-# ZSH_THEME="robbyrussell"
-# plugins=(git)
-
-# source $ZSH/oh-my-zsh.sh
-
-# alias francinette=/home/vfrants/francinette/tester.sh
-# alias paco=/home/vfrants/francinette/tester.sh
-
 declare_accessor() {
     local type="$1"
     local name="$2"
@@ -40,7 +31,6 @@ make_cpp() {
     local filename="${1}.cpp"
 
 	cat <<EOF > "$filename"
-#include <iostream>
 
 #include "${1}.hpp"
 
@@ -48,7 +38,7 @@ EOF
 	echo -n "${1}::${1}() " >> "$filename"
 
     if (( $# > 1 )); then
-        echo -n "\n    : " >> "$filename"
+        echo -n ": " >> "$filename"
         for ((i = 2; i <= $#; i += 2)); do
    			local upper_arg="$(echo "${@[i + 1]}" | sed 's/\([a-z]\)\([A-Z]\)/\1_\2/g; s/\([A-Z]\)\([A-Z][a-z]\)/\1_\2/g' | tr '[:lower:]' '[:upper:]')"
 
@@ -70,10 +60,10 @@ EOF
     	        echo -n "," >> "$filename"
     	    fi
     	done
-		echo -n ")" >> "$filename"
+		echo -n " ) " >> "$filename"
 
     	if (( $# > 1 )); then
-    	    echo -n "\n    : " >> "$filename"
+    	    echo -n ": " >> "$filename"
     	    for ((i = 2; i <= $#; i += 2)); do
     	        echo -n "_${@[i + 1]}(${@[i + 1]})" >> "$filename"
     	        if (( i < $# - 1 )); then
@@ -85,10 +75,10 @@ EOF
 		echo '{}' >> "$filename"
 	fi
 
-	echo -n "${1}::${1}( const ${1} &other )" >> "$filename"
+	echo -n "${1}::${1}( const ${1} &other ) " >> "$filename"
 
     if (( $# > 1 )); then
-        echo -n "\n    : " >> "$filename"
+        echo -n ": " >> "$filename"
         for ((i = 2; i <= $#; i += 2)); do
             echo -n "_${@[i + 1]}(other._${@[i + 1]})" >> "$filename"
             if (( i < $# - 1 )); then
@@ -99,7 +89,7 @@ EOF
     fi
 
 	echo '{}' >> "$filename"
-	echo "${1}::~${1}() {}\n\n" >> "$filename"
+	echo "${1}::~${1}() {}\n" >> "$filename"
 
     # Generate getter and setter functions
     for ((i = 2; i <= $#; i += 2)); do
@@ -110,7 +100,6 @@ EOF
 ${1} &${1}::operator=( const ${1} &other ) {
     return (*this);
 }
-
 EOF
 }
 
@@ -120,6 +109,7 @@ make_hpp() {
 
     # Create the .hpp file
     cat <<EOF > "$filename"
+
 #pragma once
 
 #ifndef ${uppercase_param}_HPP
@@ -176,7 +166,6 @@ EOF
 };
 
 #endif // ${uppercase_param}_HPP
-
 EOF
 }
 
@@ -192,9 +181,9 @@ form() {
     fi
 
 	make_cpp "$@"
-    echo "File '$1' successfully created."
+    echo "File '$1.cpp' successfully created."
 	make_hpp "$@"
-    echo "File '$1' successfully created."
+    echo "File '$1.hpp' successfully created."
 
     git add "$1.cpp" "$1.hpp"
 }
