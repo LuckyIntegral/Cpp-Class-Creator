@@ -6,7 +6,7 @@
 /*   By: vfrants <vfrants@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:13:31 by vfrants           #+#    #+#             */
-/*   Updated: 2023/12/23 01:18:30 by vfrants          ###   ########.fr       */
+/*   Updated: 2024/01/02 21:35:53 by vfrants          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,16 @@ int main()
         const Animal *i = new Cat();
         std::cout << std::endl;
 
+        j->announceIdea();
+        std::cout << std::endl;
+        i->announceIdea();
+        std::cout << std::endl;
+
         delete j;
         std::cout << std::endl;
         delete i;
     }
     std::cout << "\nTest 2\n" << std::endl;
-    {
-        Animal *c = new Cat();
-        std::cout << std::endl;
-        c->announceIdea();
-        std::cout << std::endl;
-        delete c;
-    }
-    std::cout << "\nTest 3\n" << std::endl;
     {
         const int   size = 10;
         Animal      *animals[size];
@@ -64,22 +61,66 @@ int main()
             std::cout << std::endl;
         }
     }
-    std::cout << "\nTest 4\n" << std::endl;
+    std::cout << "\nTest 3\n" << std::endl;
     {
         Animal *a = new Cat();
+        std::cout << std::endl;
 
         a->announceIdea();
         a->makeSound();
+        std::cout << std::endl;
 
         Animal *b = new Cat();
+        std::cout << std::endl;
 
         *a = *b;
+        std::cout << std::endl;
 
         b->announceIdea();
         b->makeSound();
+        std::cout << std::endl;
 
         delete a;
+        std::cout << std::endl;
         delete b;
     }
+    std::cout << "\nTest 4\n" << std::endl;
+    {
+        Cat  a = Cat();
+        std::cout << std::endl;
+        {
+            Cat b;
+            std::cout << std::endl;
+            b = a;
+            std::cout << std::endl;
+        }
+    }
+        std::cout << std::endl;
+        std::cout << std::endl;
+        std::cout << std::endl;
+    {
+        Cat  a;
+        std::cout << std::endl;
+        {
+            Cat b;
+            std::cout << std::endl;
+            b = a;
+            std::cout << std::endl;
+        }
+    }
+        std::cout << std::endl;
+        std::cout << std::endl;
+        std::cout << std::endl;
+    {
+        Dog  a;
+        std::cout << std::endl;
+        {
+            Dog b;
+            std::cout << std::endl;
+            b = a;
+            std::cout << std::endl;
+        }
+    }
+
     return (0);
 }

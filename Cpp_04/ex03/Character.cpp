@@ -17,6 +17,8 @@ Character::Character( const std::string name ) : _name(name) {
 
 Character::Character( const Character &other ) {
     // std::cout << "Character: copy constructor has been called" << std::endl;
+	for (int i = 0; i < 4; i++)
+		this->_array[i] = NULL;
     *this = other;
 }
 
@@ -57,7 +59,8 @@ Character &Character::operator=( const Character &other ) {
 				delete this->_array[i];
 
 		for (int i = 0; i < 4; i++)
-			this->_array[i] = other._array[i];
+			if (other._array[i])
+				this->_array[i] = other._array[i]->clone();
 	}
     return (*this);
 }

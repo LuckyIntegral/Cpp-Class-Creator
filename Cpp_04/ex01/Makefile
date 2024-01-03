@@ -17,6 +17,11 @@ run		: re
 		@./${NAME};
 		@$(RM) $(OBJS_DIR) $(NAME)
 
+test	: re
+		@clear
+		@valgrind ./${NAME};
+		@$(RM) $(OBJS_DIR) $(NAME)
+
 $(NAME)	: $(OBJS)
 		$(CPP) -o $@ $^
 
@@ -34,4 +39,4 @@ re		: fclean all
 
 -include $(DEPS)
 
-.PHONY: all clean fclean re run
+.PHONY: all clean fclean re run test

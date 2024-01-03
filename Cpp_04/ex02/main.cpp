@@ -6,7 +6,7 @@
 /*   By: vfrants <vfrants@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 01:13:31 by vfrants           #+#    #+#             */
-/*   Updated: 2023/12/23 23:35:37 by vfrants          ###   ########.fr       */
+/*   Updated: 2024/01/02 21:33:57 by vfrants          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,32 @@ int main( )
 
         delete j;
         delete i;
+    }
+        std::cout << std::endl;
+        std::cout << std::endl;
+        std::cout << std::endl;
+    {
+        Cat  a;
+        std::cout << std::endl;
+        {
+            Cat b;
+            std::cout << std::endl;
+            b = a;
+            std::cout << std::endl;
+        }
+    }
+        std::cout << std::endl;
+        std::cout << std::endl;
+        std::cout << std::endl;
+    {
+        Dog  a;
+        std::cout << std::endl;
+        {
+            Dog b;
+            std::cout << std::endl;
+            b = a;
+            std::cout << std::endl;
+        }
     }
 
     return (0);

@@ -6,7 +6,7 @@
 /*   By: vfrants <vfrants@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 12:38:25 by vfrants           #+#    #+#             */
-/*   Updated: 2023/12/23 22:58:27 by vfrants          ###   ########.fr       */
+/*   Updated: 2024/01/02 21:34:55 by vfrants          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,12 @@
 
 #include <iostream>
 
-Cat::Cat() : Animal() {
+Cat::Cat() : Animal(), _brain(new Brain) {
     std::cout << "Cat: default constructor has been called" << std::endl;
     this->_type = TYPE_CAT;
-    this->_brain = new Brain();
 }
 
-Cat::Cat(const Cat &other) : Animal() {
+Cat::Cat(const Cat &other) : Animal(), _brain(new Brain) {
     std::cout << "Cat: copy constructor has been called" << std::endl;
     *this = other;
 }
@@ -41,6 +40,6 @@ void Cat::announceIdea() const {
 Cat &Cat::operator=(const Cat &other) {
     std::cout << "Cat: copy assignment operator has been called" << std::endl;
     this->_type = other._type;
-    this->_brain = other._brain;
+    *this->_brain = *other._brain;
     return (*this);
 }

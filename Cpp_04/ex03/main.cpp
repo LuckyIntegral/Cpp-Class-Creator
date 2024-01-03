@@ -28,7 +28,7 @@ int	main( void ) {
 		delete me;
 		delete src;
 	}
-	std::cout << "Logs 2" << std::endl;
+	std::cout << "\nLogs 2\n" << std::endl;
 	{
 		IMateriaSource	*src = new MateriaSource();
 		for (int i = 0; i < 4; ++i)
@@ -48,6 +48,24 @@ int	main( void ) {
 		delete bob;
 		delete me;
 		delete src;
+	}
+	{
+		MateriaSource ms;
+		ms.learnMateria(new Cure());
+		ms.learnMateria(new Cure());
+		{
+			MateriaSource msi;
+			msi = ms;
+		}
+	}
+	{
+		Character ms;
+		ms.equip(new Cure());
+		ms.equip(new Cure());
+		{
+			Character msi;
+			msi = ms;
+		}
 	}
 	return (0);
 }

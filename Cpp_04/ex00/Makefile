@@ -20,6 +20,11 @@ run		: re
 $(NAME)	: $(OBJS)
 		$(CPP) -o $@ $^
 
+test	: re
+		@clear
+		@valgrind ./${NAME};
+		@$(RM) $(OBJS_DIR) $(NAME)
+
 objs/%.o: %.cpp
 		@mkdir -p $(dir $@)
 		${CPP} ${CPPFLAGS} -c $< -o $@
@@ -34,4 +39,4 @@ re		: fclean all
 
 -include $(DEPS)
 
-.PHONY: all clean fclean re run
+.PHONY: all clean fclean re run test

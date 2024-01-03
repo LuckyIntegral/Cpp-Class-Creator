@@ -41,6 +41,7 @@ MateriaSource &MateriaSource::operator=( const MateriaSource &other ) {
 			delete this->_array[i];
 
 	for (int i = 0; i < 4; ++i)
-		this->_array[i] = other._array[i];
+		if (other._array[i])
+			this->_array[i] = other._array[i]->clone();
     return (*this);
 }

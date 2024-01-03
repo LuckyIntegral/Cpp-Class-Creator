@@ -23,6 +23,11 @@ run		: re
 		@./${NAME};
 		@$(RM) $(OBJS_DIR) $(NAME)
 
+test	: re
+		@clear
+		@valgrind -s --leak-check=full --show-leak-kinds=all ./${NAME}
+		@$(RM) $(OBJS_DIR) $(NAME)
+
 $(NAME)	: $(OBJS)
 		$(CXX) -o $@ $^
 
@@ -40,4 +45,4 @@ re		: fclean all
 
 -include $(DEPS)
 
-.PHONY: all clean fclean re run
+.PHONY: all clean fclean re run test
