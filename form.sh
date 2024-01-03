@@ -215,8 +215,6 @@ form() {
     echo "File '$1.cpp' successfully created."
 	make_hpp "$@"
     echo "File '$1.hpp' successfully created."
-
-    git add "$1.cpp" "$1.hpp"
 }
 
 form "$@"
