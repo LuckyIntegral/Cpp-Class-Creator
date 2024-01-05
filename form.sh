@@ -1,5 +1,21 @@
 #! /usr/bin/zsh
 
+put_header() {
+	cat <<EOF > "$1"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ClapTrap.cpp                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: $USER <$USER@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/05 14:43:53 by $USER          #+#    #+#             */
+/*   Updated: 2024/01/05 14:43:54 by $USER         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+EOF
+}
+
 declare_accessor() {
 	local type="$1"
 	local name="$2"
@@ -37,114 +53,119 @@ implement_accessors() {
 }
 
 make_cpp() {
+	local dirname="src/"
 	local filename="${1}.cpp"
 
-	cat <<EOF > "$filename"
+	mkdir -p "src"
+	put_header "$dirname""$filename"  > "$dirname""$filename"
+	cat <<EOF >> "$dirname""$filename"
 
-#include "${1}.hpp"
+#include "../inc/${1}.hpp"
 
 #include <iostream>
 
 EOF
-	echo -n "${1}::${1}() " >> "$filename"
+	echo -n "${1}::${1}() " >> "$dirname""$filename"
 
 	if (( $# > 1 )); then
-		echo -n ": " >> "$filename"
+		echo -n ": " >> "$dirname""$filename"
 		for ((i = 2; i <= $#; i += 2)); do
    			local upper_arg="$(echo "${@[i + 1]}" | sed 's/\([a-z]\)\([A-Z]\)/\1_\2/g; s/\([A-Z]\)\([A-Z][a-z]\)/\1_\2/g' | tr '[:lower:]' '[:upper:]')"
 
-			echo -n "_${@[i + 1]}(DEFAULT_$upper_arg)" >> "$filename"
+			echo -n "_${@[i + 1]}(DEFAULT_$upper_arg)" >> "$dirname""$filename"
 			if (( i < $# - 1 )); then
-				echo -n "," >> "$filename"
+				echo -n "," >> "$dirname""$filename"
 			fi
-			echo -n " " >> "$filename"
+			echo -n " " >> "$dirname""$filename"
 		done
 	fi
 
-	echo '{}' >> "$filename"
+	echo '{}' >> "$dirname""$filename"
 
 	if (( $# > 1 )); then
-		echo -n "${1}::${1}(" >> "$filename"
+		echo -n "${1}::${1}(" >> "$dirname""$filename"
 		for ((i = 2; i <= $#; i += 2)); do
-			echo -n " ${@[i]} ${@[i + 1]}" >> "$filename"
+			echo -n " ${@[i]} ${@[i + 1]}" >> "$dirname""$filename"
 			if (( i < $# - 1 )); then
-				echo -n "," >> "$filename"
+				echo -n "," >> "$dirname""$filename"
 			fi
 		done
-		echo -n " ) " >> "$filename"
+		echo -n " ) " >> "$dirname""$filename"
 
 		if (( $# > 1 )); then
-			echo -n ": " >> "$filename"
+			echo -n ": " >> "$dirname""$filename"
 			for ((i = 2; i <= $#; i += 2)); do
-				echo -n "_${@[i + 1]}(${@[i + 1]})" >> "$filename"
+				echo -n "_${@[i + 1]}(${@[i + 1]})" >> "$dirname""$filename"
 				if (( i < $# - 1 )); then
-					echo -n "," >> "$filename"
+					echo -n "," >> "$dirname""$filename"
 				fi
-				echo -n " " >> "$filename"
+				echo -n " " >> "$dirname""$filename"
 			done
 		fi
-		echo '{}' >> "$filename"
+		echo '{}' >> "$dirname""$filename"
 	fi
 
 	if (( $# > 1 )); then
-		echo -n "${1}::${1}( const ${1} &other ) " >> "$filename"
-		echo -n ": " >> "$filename"
+		echo -n "${1}::${1}( const ${1} &other ) " >> "$dirname""$filename"
+		echo -n ": " >> "$dirname""$filename"
 		for ((i = 2; i <= $#; i += 2)); do
-			echo -n "_${@[i + 1]}(other._${@[i + 1]})" >> "$filename"
+			echo -n "_${@[i + 1]}(other._${@[i + 1]})" >> "$dirname""$filename"
 			if (( i < $# - 1 )); then
-				echo -n "," >> "$filename"
+				echo -n "," >> "$dirname""$filename"
 			fi
-			echo -n " " >> "$filename"
+			echo -n " " >> "$dirname""$filename"
 		done
 	else
-		echo -n "${1}::${1}( const ${1} & ) " >> "$filename"
+		echo -n "${1}::${1}( const ${1} & ) " >> "$dirname""$filename"
 	fi
 
-	echo '{}' >> "$filename"
-	echo "${1}::~${1}() {}\n" >> "$filename"
+	echo '{}' >> "$dirname""$filename"
+	echo "${1}::~${1}() {}\n" >> "$dirname""$filename"
 
 	# Generate getter and setter functions
 	for ((i = 2; i <= $#; i += 2)); do
-		implement_accessors "${@[i]}" "${@[i + 1]}" "${1}" >> "$filename"
+		implement_accessors "${@[i]}" "${@[i + 1]}" "${1}" >> "$dirname""$filename"
 	done
 
 	if (( $# > 1 )); then
-		echo "${1} &${1}::operator=( const ${1} &other ) {" >> "$filename"
+		echo "${1} &${1}::operator=( const ${1} &other ) {" >> "$dirname""$filename"
 		for ((i = 2; i <= $#; i += 2)); do
-			echo "	this->_${@[i + 1]} = other._${@[i + 1]};" >> "$filename"
+			echo "	this->_${@[i + 1]} = other._${@[i + 1]};" >> "$dirname""$filename"
 		done
 	else
-		echo "${1} &${1}::operator=( const ${1} & ) {" >> "$filename"
+		echo "${1} &${1}::operator=( const ${1} & ) {" >> "$dirname""$filename"
 	fi
-	echo '	return (*this);' >> "$filename"
-	echo "}\n" >> "$filename"
+	echo '	return (*this);' >> "$dirname""$filename"
+	echo "}\n" >> "$dirname""$filename"
 
 	if (( $# > 1 )); then
-		echo "std::ostream	&operator<<( std::ostream &stream, const ${1} &instance ) {" >> "$filename"
-		echo "	stream << \"{${1}:\"" >> "$filename"
+		echo "std::ostream	&operator<<( std::ostream &stream, const ${1} &instance ) {" >> "$dirname""$filename"
+		echo "	stream << \"{${1}:\"" >> "$dirname""$filename"
 		for ((i = 2; i <= $#; i += 2)); do
 			local capitalized_name="$(echo ${@[i + 1]} | awk '{print toupper(substr($0,1,1)) tolower(substr($0,2))}')"
-			echo -n "		<< \"${@[i + 1]}=\" << instance.get${capitalized_name}()" >> "$filename"
+			echo -n "		<< \"${@[i + 1]}=\" << instance.get${capitalized_name}()" >> "$dirname""$filename"
 			if (( i < $# - 1 )); then
-				echo " << ','" >> "$filename"
+				echo " << ','" >> "$dirname""$filename"
 			else
-				echo " << '}';" >> "$filename"
+				echo " << '}';" >> "$dirname""$filename"
 			fi
 		done
 	else
-		echo "std::ostream	&operator<<( std::ostream &stream, const ${1} & ) {" >> "$filename"
-		echo "	stream << \"{${1}:{}}\";" >> "$filename"
+		echo "std::ostream	&operator<<( std::ostream &stream, const ${1} & ) {" >> "$dirname""$filename"
+		echo "	stream << \"{${1}:{}}\";" >> "$dirname""$filename"
 	fi
-	echo "	return (stream);">> "$filename"
-	echo "}" >> "$filename"
+	echo "	return (stream);">> "$dirname""$filename"
+	echo "}" >> "$dirname""$filename"
 }
 
 make_hpp() {
 	local filename="${1}.hpp"
+	local dirname="inc/"
 	local uppercase_param="$(echo "${1}" | sed 's/\([a-z]\)\([A-Z]\)/\1_\2/g; s/\([A-Z]\)\([A-Z][a-z]\)/\1_\2/g' | tr '[:lower:]' '[:upper:]')"
 
+	mkdir -p "inc"
 	# Create the .hpp file
-	cat <<EOF > "$filename"
+	cat <<EOF > "$dirname""$filename"
 
 #pragma once
 
@@ -160,45 +181,45 @@ EOF
 		for ((i = 2; i <= $#; i += 2)); do
    			local upper_arg="$(echo "${@[i + 1]}" | sed 's/\([a-z]\)\([A-Z]\)/\1_\2/g; s/\([A-Z]\)\([A-Z][a-z]\)/\1_\2/g' | tr '[:lower:]' '[:upper:]')"
 
-			echo "# define DEFAULT_$upper_arg" >> "$filename"
+			echo "# define DEFAULT_$upper_arg" >> "$dirname""$filename"
 		done
-		echo '' >> "$filename"
+		echo '' >> "$dirname""$filename"
 	fi
 
-	echo "class ${1} {" >> "$filename"
+	echo "class ${1} {" >> "$dirname""$filename"
 
 	if ((2 <= $#)); then
-		echo 'protected:' >> "$filename"
+		echo 'protected:' >> "$dirname""$filename"
 		for ((i = 2; i <= $#; i += 2)); do
-			echo "	${@[i]}	_${@[i + 1]};" >> "$filename"
+			echo "	${@[i]}	_${@[i + 1]};" >> "$dirname""$filename"
 		done
-		echo '' >> "$filename"
+		echo '' >> "$dirname""$filename"
 	fi
 
-	echo "public:" >> "$filename"
-	echo "	${1}();" >> "$filename"
+	echo "public:" >> "$dirname""$filename"
+	echo "	${1}();" >> "$dirname""$filename"
 	if ((2 <= $#)); then
-		echo -n "	${1}(" >> "$filename"
+		echo -n "	${1}(" >> "$dirname""$filename"
 		for ((i = 2; i <= $#; i += 2)); do
-			echo -n " ${@[i]} ${@[i + 1]}" >> "$filename"
+			echo -n " ${@[i]} ${@[i + 1]}" >> "$dirname""$filename"
 			if (( i < $# - 1 )); then
-				echo -n "," >> "$filename"
+				echo -n "," >> "$dirname""$filename"
 			fi
 		done
-		echo " );" >> "$filename"
+		echo " );" >> "$dirname""$filename"
 	fi
-	echo "	${1}( const ${1} &other );" >> "$filename"
-	echo "	~${1}();" >> "$filename"
-	echo "" >> "$filename"
+	echo "	${1}( const ${1} &other );" >> "$dirname""$filename"
+	echo "	~${1}();" >> "$dirname""$filename"
+	echo "" >> "$dirname""$filename"
 
 	if ((2 <= $#)); then
 		for ((i = 2; i <= $#; i += 2)); do
-   			declare_accessor "${@[i]}" "${@[i + 1]}" >> "$filename"
+   			declare_accessor "${@[i]}" "${@[i + 1]}" >> "$dirname""$filename"
    		done
-		echo '' >> "$filename"
+		echo '' >> "$dirname""$filename"
 	fi
 
-	cat <<EOF >> "$filename"
+	cat <<EOF >> "$dirname""$filename"
 	${1} &operator=( const ${1} &other );
 };
 
