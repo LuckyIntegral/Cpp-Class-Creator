@@ -2,6 +2,12 @@
 
 This script generates C++ class files with getters, setters, and other necessary functions.
 
+## Install
+
+``` bash
+bash -c "$(curl -fsSL https://raw.github.com/LuckyIntegral/Cpp-Class-Creator/main/installer.sh)"
+```
+
 ## Prerequisites
 
 - Ensure that you have the required utilities installed (e.g., awk, sed, tr).
@@ -45,4 +51,3 @@ This script generates C++ class files with getters, setters, and other necessary
 ## Contributions
 
 __Contributions are welcome! If you find any issues or havesuggestions for improvements, feel free to submit a pull request.__
-
