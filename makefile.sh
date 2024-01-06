@@ -5,7 +5,7 @@ make_makefile(){
 	local srcs=($(basename -a src/*.cpp))
 
 	if (( $# != 1 )); then
-		echo "Usage: ./makefile.sh <name_of_executable>"
+		echo "Usage: makegen <name_of_executable>"
 		return 1
 	fi
 
