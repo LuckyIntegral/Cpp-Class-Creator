@@ -1,46 +1,80 @@
+#! /usr/bin/zsh
+
 make_makefile(){
 	local filename="Makefile"
+	local srcs=($(basename -a src/*.cpp))
+
+	if (( $# != 1 )); then
+		echo "Usage: ./makefile.sh <name_of_executable>"
+		return 1
+	fi
 
 	# Create the .hpp file
-	cat <<EOF > "$filename"
-NAME    = ${1}
+	cat << EOF > "$filename"
+################################################################################
+######                             PROPERTIES                             ######
+################################################################################
 
-CC      = c++
+CXX			= c++
+NAME		= ${1}
+RM			= rm -rf
 
-FLAGS   = -Wall -Wextra -Werror -std=c++98
+SRCS_DIR	= src
+OBJS_DIR	= obj
 
-RM      = rm -rf
+CXXFLAGS	= -Wall -Wextra -Werror -MP -MD -std=c++98
 
-SRC_DIR = src/
+EOF
+	echo 'SRCS    = \' >> $filename
 
-SRCS    = 	\$(SRC_DIR)${1}.cpp \
+	for ((i = 1; i <= $#srcs; ++i)); do
+		echo -n "		\$(SRCS_DIR)/${srcs[i]}" >> $filename
+		if (( i < $#srcs )); then
+			echo -n ' \' >> $filename
+		fi
+		echo '' >> $filename
+	done
 
-OBJ_DIR = obj
+	cat << EOF >> $filename
 
-OBJ     = \$(patsubst \$(SRC_DIR)%.cpp, \$(OBJ_DIR)/%.o, \$(SRCS))
+OBJS	= \$(SRCS:\${SRCS_DIR}/%.cpp=\${OBJS_DIR}/%.o)
+DEPS	= \$(OBJS:%.o=%.d)
 
-.PHONY: all clean fclean re
+################################################################################
+######                               RULES                                ######
+################################################################################
 
-all: \$(OBJ_DIR) \$(NAME)
+all		: \$(NAME)
 
-\$(NAME): \$(OBJ)
-	\$(CC) \$(FLAGS) \$^ -o \$@
+run		: re
+		@clear
+		@./\${NAME};
+		@\$(RM) \$(OBJS_DIR) \$(NAME)
 
-\$(OBJ_DIR)/%.o: \$(SRC_DIR)%.cpp
-	\$(CC) \$(FLAGS) -c \$< -o \$@
+test	: re
+		@clear
+		@.valgrind -s /\${NAME};
+		@\$(RM) \$(OBJS_DIR) \$(NAME)
 
-\$(OBJ_DIR):
-	@mkdir -p \$(OBJ_DIR)
+\$(NAME)	: \$(OBJS)
+		\$(CXX) -o $@ \$^
 
-clean:
-	@\$(RM) \$(OBJ_DIR)
+\${OBJS_DIR}/%.o: \${SRCS_DIR}/%.cpp
+		@mkdir -p \$(dir \$@)
+		\${CXX} \${CXXFLAGS} -c \$< -o \$@
 
-fclean: clean
-	@\$(RM) \$(NAME)
+clean	:
+		\$(RM) \$(OBJS_DIR)
 
-re: fclean all
+fclean	:
+		\$(RM) \$(OBJS_DIR) \$(NAME)
+
+re		: fclean all
+
+-include \$(DEPS)
+
+.PHONY: all clean fclean re run
 EOF
 }
-
 
 make_makefile "$@"
