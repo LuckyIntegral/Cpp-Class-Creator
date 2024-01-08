@@ -40,10 +40,12 @@ if ! grep "makegen=" $RC_FILE &> /dev/null; then
 	echo -e "\nalias makegen=\"bash $HOME/cpp_class_creator/makefile.sh\"\n" >> $RC_FILE
 fi
 
-exec $SHELL
-
 cd $old_pwd
 
 unset old_pwd
 
 echo "Installation complete"
+
+
+
+
