@@ -1,7 +1,6 @@
 #! /bin/bash
 
-
-export old_pwd=$PWD
+old_pwd=$PWD
 
 cd $HOME
 rm -rf cpp_class_creator
@@ -21,7 +20,6 @@ chmod +x $HOME/cpp_class_creator/form.sh
 chmod +x $HOME/cpp_class_creator/makefile.sh
 
 RC_FILE=$HOME/.zshrc
-
 if [[ "$SHELL" == *"bash"* ]]; then
     RC_FILE="$HOME/.bashrc"
 elif [[ "$SHELL" == *"zsh"* ]]; then
@@ -41,8 +39,6 @@ if ! grep "makegen=" $RC_FILE &> /dev/null; then
 fi
 
 cd $old_pwd
-
-unset old_pwd
 
 echo "Installation complete"
 
