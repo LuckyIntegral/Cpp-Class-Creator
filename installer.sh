@@ -1,5 +1,8 @@
 #! /bin/bash
 
+
+export old_pwd=$PWD
+
 cd $HOME
 rm -rf cpp_class_creator
 
@@ -38,3 +41,9 @@ if ! grep "makegen=" $RC_FILE &> /dev/null; then
 fi
 
 exec $SHELL
+
+cd $old_pwd
+
+unset old_pwd
+
+echo "Installation complete"
