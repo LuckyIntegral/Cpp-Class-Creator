@@ -1,8 +1,7 @@
-#! /usr/bin/zsh
 
 make_makefile(){
 	local filename="Makefile"
-	local srcs=($(basename -a src/*.cpp))
+	local srcs=($(find src -type f -name '*.cpp'))
 
 	if (( $# != 1 )); then
 		echo "Usage: makegen <name_of_executable>"
@@ -27,13 +26,13 @@ CXXFLAGS	= -Wall -Wextra -Werror -MP -MD -std=c++98
 EOF
 	echo 'SRCS    = \' >> $filename
 
-	for ((i = 1; i <= $#srcs; ++i)); do
-		echo -n "		\$(SRCS_DIR)/${srcs[i]}" >> $filename
-		if (( i < $#srcs )); then
-			echo -n ' \' >> $filename
-		fi
-		echo '' >> $filename
-	done
+    for ((i = 0; i < ${#srcs[@]}; ++i)); do
+        printf "\t\t\t${srcs[i]}" >> $filename
+        if (( i < ${#srcs[@]} - 1 )); then
+            printf " \\" >> $filename
+        fi
+        printf "\\n" >> $filename
+    done
 
 	cat << EOF >> $filename
 

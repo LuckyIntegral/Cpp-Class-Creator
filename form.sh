@@ -1,4 +1,3 @@
-#! /usr/bin/zsh
 
 put_header() {
 	cat <<EOF > "$1"
