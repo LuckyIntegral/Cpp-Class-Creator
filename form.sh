@@ -1,3 +1,4 @@
+#! /bin/zsh
 
 put_header() {
 	cat <<EOF > "$1"
@@ -64,58 +65,58 @@ make_cpp() {
 #include <iostream>
 
 EOF
-	echo -n "${1}::${1}() " >> "$dirname""$filename"
+	printf "${1}::${1}() " >> "$dirname""$filename"
 
 	if (( $# > 1 )); then
-		echo -n ": " >> "$dirname""$filename"
+		printf ": " >> "$dirname""$filename"
 		for ((i = 2; i <= $#; i += 2)); do
    			local upper_arg="$(echo "${@[i + 1]}" | sed 's/\([a-z]\)\([A-Z]\)/\1_\2/g; s/\([A-Z]\)\([A-Z][a-z]\)/\1_\2/g' | tr '[:lower:]' '[:upper:]')"
 
-			echo -n "_${@[i + 1]}(DEFAULT_$upper_arg)" >> "$dirname""$filename"
+			printf "_${@[i + 1]}(DEFAULT_$upper_arg)" >> "$dirname""$filename"
 			if (( i < $# - 1 )); then
-				echo -n "," >> "$dirname""$filename"
+				printf "," >> "$dirname""$filename"
 			fi
-			echo -n " " >> "$dirname""$filename"
+			printf " " >> "$dirname""$filename"
 		done
 	fi
 
 	echo '{}' >> "$dirname""$filename"
 
 	if (( $# > 1 )); then
-		echo -n "${1}::${1}(" >> "$dirname""$filename"
+		printf "${1}::${1}(" >> "$dirname""$filename"
 		for ((i = 2; i <= $#; i += 2)); do
-			echo -n " ${@[i]} ${@[i + 1]}" >> "$dirname""$filename"
+			printf " ${@[i]} ${@[i + 1]}" >> "$dirname""$filename"
 			if (( i < $# - 1 )); then
-				echo -n "," >> "$dirname""$filename"
+				printf "," >> "$dirname""$filename"
 			fi
 		done
-		echo -n " ) " >> "$dirname""$filename"
+		printf " ) " >> "$dirname""$filename"
 
 		if (( $# > 1 )); then
-			echo -n ": " >> "$dirname""$filename"
+			printf ": " >> "$dirname""$filename"
 			for ((i = 2; i <= $#; i += 2)); do
-				echo -n "_${@[i + 1]}(${@[i + 1]})" >> "$dirname""$filename"
+				printf "_${@[i + 1]}(${@[i + 1]})" >> "$dirname""$filename"
 				if (( i < $# - 1 )); then
-					echo -n "," >> "$dirname""$filename"
+					printf "," >> "$dirname""$filename"
 				fi
-				echo -n " " >> "$dirname""$filename"
+				printf " " >> "$dirname""$filename"
 			done
 		fi
 		echo '{}' >> "$dirname""$filename"
 	fi
 
 	if (( $# > 1 )); then
-		echo -n "${1}::${1}( const ${1} &other ) " >> "$dirname""$filename"
-		echo -n ": " >> "$dirname""$filename"
+		printf "${1}::${1}( const ${1} &other ) " >> "$dirname""$filename"
+		printf ": " >> "$dirname""$filename"
 		for ((i = 2; i <= $#; i += 2)); do
-			echo -n "_${@[i + 1]}(other._${@[i + 1]})" >> "$dirname""$filename"
+			printf "_${@[i + 1]}(other._${@[i + 1]})" >> "$dirname""$filename"
 			if (( i < $# - 1 )); then
-				echo -n "," >> "$dirname""$filename"
+				printf "," >> "$dirname""$filename"
 			fi
-			echo -n " " >> "$dirname""$filename"
+			printf " " >> "$dirname""$filename"
 		done
 	else
-		echo -n "${1}::${1}( const ${1} & ) " >> "$dirname""$filename"
+		printf "${1}::${1}( const ${1} & ) " >> "$dirname""$filename"
 	fi
 
 	echo '{}' >> "$dirname""$filename"
@@ -142,7 +143,7 @@ EOF
 		echo "	stream << \"{${1}:\"" >> "$dirname""$filename"
 		for ((i = 2; i <= $#; i += 2)); do
 			local capitalized_name="$(echo ${@[i + 1]} | awk '{print toupper(substr($0,1,1)) tolower(substr($0,2))}')"
-			echo -n "		<< \"${@[i + 1]}=\" << instance.get${capitalized_name}()" >> "$dirname""$filename"
+			printf "		<< \"${@[i + 1]}=\" << instance.get${capitalized_name}()" >> "$dirname""$filename"
 			if (( i < $# - 1 )); then
 				echo " << ','" >> "$dirname""$filename"
 			else
@@ -198,11 +199,11 @@ EOF
 	echo "public:" >> "$dirname""$filename"
 	echo "	${1}();" >> "$dirname""$filename"
 	if ((2 <= $#)); then
-		echo -n "	${1}(" >> "$dirname""$filename"
+		printf "	${1}(" >> "$dirname""$filename"
 		for ((i = 2; i <= $#; i += 2)); do
-			echo -n " ${@[i]} ${@[i + 1]}" >> "$dirname""$filename"
+			printf " ${@[i]} ${@[i + 1]}" >> "$dirname""$filename"
 			if (( i < $# - 1 )); then
-				echo -n "," >> "$dirname""$filename"
+				printf "," >> "$dirname""$filename"
 			fi
 		done
 		echo " );" >> "$dirname""$filename"
@@ -240,10 +241,19 @@ form() {
 		return 1
 	fi
 
-	make_cpp "$@"
-	echo "File '$1.cpp' successfully created."
-	make_hpp "$@"
-	echo "File '$1.hpp' successfully created."
+	if [ -f src/$1.cpp ] && ! [ -w src/$1.cpp ]; then
+		echo "Error: File '$1.cpp' is not writable."
+	else
+		make_cpp "$@"
+		echo "File '$1.cpp' successfully created."
+	fi
+
+	if [ -f src/$1.hpp ] && ! [ -w src/$1.hpp ]; then
+		echo "Error: File '$1.hpp' is not writable."
+	else
+		make_hpp "$@"
+		echo "File '$1.hpp' successfully created."
+	fi
 }
 
 form "$@"
