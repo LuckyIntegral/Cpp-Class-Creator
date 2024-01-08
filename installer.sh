@@ -38,7 +38,15 @@ if ! grep "makegen=" $RC_FILE &> /dev/null; then
 	echo -e "\nalias makegen=\"bash $HOME/cpp_class_creator/makefile.sh\"\n" >> $RC_FILE
 fi
 
+if ! grep "ccc-update=" $RC_FILE &> /dev/null; then
+	echo "ccc-update alias not present"
+	echo "Adding alias in file: $RC_FILE"
+	echo -e "\nalias ccc-update=\"bash $HOME/cpp_class_creator/installer.sh\"\n" >> $RC_FILE
+fi
+
 cd $old_pwd
+
+exec $SHELL
 
 echo "Installation complete"
 
