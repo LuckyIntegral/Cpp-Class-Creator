@@ -132,7 +132,8 @@ EOF
 	fi
 
 	echo '{}' >> "$dirname""$filename"
-	echo "${1}::~${1}() {}\n" >> "$dirname""$filename"
+	echo "${1}::~${1}() {}" >> "$dirname""$filename"
+	echo '' >> "$dirname""$filename"
 
 	# Generate getter and setter functions
 	for ((i = 2; i <= $#; i += 2)); do
@@ -148,7 +149,8 @@ EOF
 		echo "${1} &${1}::operator=( const ${1} & ) {" >> "$dirname""$filename"
 	fi
 	echo '	return (*this);' >> "$dirname""$filename"
-	echo "}\n" >> "$dirname""$filename"
+	echo "}" >> "$dirname""$filename"
+	echo '' >> "$dirname""$filename"
 
 	if (( $# > 1 )); then
 		echo "std::ostream	&operator<<( std::ostream &stream, const ${1} &instance ) {" >> "$dirname""$filename"
