@@ -1,16 +1,28 @@
 #! /bin/zsh
 
 put_header() {
+	local login_length=${#USER}
+	local file_length=${#1}
+	local basename="$(basename $1)"
+	local login_spaces=""
+	local file_spaces=""
+	local formatted_date_time=$(date '+%Y/%m/%d %H:%M:%S')
+	for (( i = 0; i < 8 - login_length; ++i )); do
+		login_spaces+=" "
+	done
+	for (( i = 0; i < 55 - file_length; ++i )); do
+		file_spaces+=" "
+	done
 	cat <<EOF > "$1"
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ClapTrap.cpp                                       :+:      :+:    :+:   */
+/*   $basename$file_spaces:+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: $USER <$USER@student.42.fr>          +#+  +:+       +#+        */
+/*   By: $USER <$USER@student.42.fr>          $login_spaces$login_spaces+#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/05 14:43:53 by $USER          #+#    #+#             */
-/*   Updated: 2024/01/05 14:43:54 by $USER         ###   ########.fr       */
+/*   Created: $formatted_date_time by $USER          $login_spaces#+#    #+#             */
+/*   Updated: $formatted_date_time by $USER         $login_spaces###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 EOF
@@ -57,7 +69,7 @@ make_cpp() {
 	local filename="${1}.cpp"
 
 	mkdir -p "src"
-	put_header "$dirname""$filename"  > "$dirname""$filename"
+	put_header "$dirname""$filename"
 	cat <<EOF >> "$dirname""$filename"
 
 #include "../inc/${1}.hpp"
@@ -165,7 +177,8 @@ make_hpp() {
 
 	mkdir -p "inc"
 	# Create the .hpp file
-	cat <<EOF > "$dirname""$filename"
+	put_header "$dirname""$filename"
+	cat <<EOF >> "$dirname""$filename"
 
 #pragma once
 
