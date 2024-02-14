@@ -1,3 +1,4 @@
+#!/bin/zsh
 
 make_makefile() {
 	local filename="Makefile"
