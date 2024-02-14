@@ -28,17 +28,17 @@ fi
 
 if ! grep "form=" $RC_FILE &> /dev/null; then
 	echo "Adding alias in file: $RC_FILE"
-	echo -e "\nalias form=\"zsh $HOME/cpp_class_creator/form.sh\"\n" >> $RC_FILE
+	echo -e "alias form=\"zsh $HOME/cpp_class_creator/form.sh\"" >> $RC_FILE
 fi
 
 if ! grep "makegen=" $RC_FILE &> /dev/null; then
 	echo "Adding alias in file: $RC_FILE"
-	echo -e "\nalias makegen=\"zsh $HOME/cpp_class_creator/makefile.sh\"\n" >> $RC_FILE
+	echo -e "alias makegen=\"zsh $HOME/cpp_class_creator/makefile.sh\"" >> $RC_FILE
 fi
 
 if ! grep "ccc-update=" $RC_FILE &> /dev/null; then
 	echo "Adding alias in file: $RC_FILE"
-	echo -e "\nalias ccc-update=\"zsh $HOME/cpp_class_creator/installer.sh\"\n" >> $RC_FILE
+	echo -e "alias ccc-update=\"zsh $HOME/cpp_class_creator/installer.sh\"" >> $RC_FILE
 fi
 
 cd $old_pwd
