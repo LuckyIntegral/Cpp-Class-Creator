@@ -10,43 +10,39 @@ bash -c "$(curl -fsSL https://raw.github.com/LuckyIntegral/Cpp-Class-Creator/mai
 
 ## Prerequisites
 
-- Ensure that you have the required utilities installed (e.g., awk, sed, tr).
+- Ensure that you have the required utilities installed (zsh, awk, sed, tr).
 
 ## Usage
 
 ```zsh
-./form.sh <class_name> [attribute_type attribute_name ...]
+form <ClassName> [attributeType, attributeName] ...
 ```
 ### Options
 
-**class_name**: Name of the C++ class. \
-**attribute_type**: Type of class attributes (e.g., int, std::string). \
-**attribute_name**: Name of class attributes.
+**ClassName**: Name of the C++ class. \
+**attributeType**: Type of class attribute (e.g., int, std::stringm unsigned long int). \
+**attributeName**: Name of class attribute.
 
 ## Example
 
 ```zsh
-./form.sh MyClass int age std::string name
+form MyClass int age std::string name 'unsigned long int' bankAccount
 ```
 
 ## Generated Files
 
 - MyClass.cpp: Contains the implementation of the MyClass class that follows next rules:
-	- Default constructor with default init list
+	- Default constructor
 	- \<Optional\> All args constructor
-	- Copy constructor with apropriate init list
+	- Copy constructor
 	- Destructor
 	- Copy assignment operator '='
-	- \<Optional\> Getters and setters for protected atributes
+	- \<Optional\> Getters and setters for private atributes
 	- Overload of << operator for your class
 - MyClass.hpp: Contains the class declaration that has all the necessary stuff for comfort usage
-
-## Features
-
-1. Automatic generation of getter and setter functions.
-2. Initialization list for class attributes (optional).
-3. Error Handling
-4. The script performs basic error checking for the correct number of arguments.
+	- Declaration of destructor, constructors and overload operators
+	- Declaration of all the getters and setters for private atributes
+	- Macroses with default values for the atributes
 
 ## Contributions
 

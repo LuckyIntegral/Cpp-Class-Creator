@@ -1,7 +1,7 @@
 
-make_makefile(){
+make_makefile() {
 	local filename="Makefile"
-	local srcs=($(find src -type f -name '*.cpp'))
+	local srcs=($(find . -type f -name "*.cpp" | awk '{print substr($0, 3)}'))
 
 	if (( $# != 1 )); then
 		echo "Usage: makegen <name_of_executable>"
@@ -10,25 +10,21 @@ make_makefile(){
 
 	# Create the .hpp file
 	cat << EOF > "$filename"
-################################################################################
-######                             PROPERTIES                             ######
-################################################################################
-
 CXX			= c++
 NAME		= ${1}
 RM			= rm -rf
 
-SRCS_DIR	= src
 OBJS_DIR	= obj
 
-CXXFLAGS	= -Wall -Wextra -Werror -MP -MD -std=c++98
+CXXFLAGS	= -Wall -Wextra -Werror -MP -MD -std=c++98 -g
+MAKEFLAGS	= -j\$(nproc)
 
 EOF
 	echo 'SRCS    = \' >> $filename
 
-    for ((i = 0; i < ${#srcs[@]}; ++i)); do
-        printf "\t\t\t${srcs[i]}" >> $filename
-        if (( i < ${#srcs[@]} - 1 )); then
+    for ((i = 1; i <= ${#srcs}; ++i)); do
+        printf "\t\t${srcs[i]}" >> $filename
+        if (( i != ${#srcs} )); then
             printf " \\" >> $filename
         fi
         printf "\\n" >> $filename
@@ -36,29 +32,29 @@ EOF
 
 	cat << EOF >> $filename
 
-OBJS	= \$(SRCS:\${SRCS_DIR}/%.cpp=\${OBJS_DIR}/%.o)
+OBJS	= \$(SRCS:%.cpp=\${OBJS_DIR}/%.o)
 DEPS	= \$(OBJS:%.o=%.d)
-
-################################################################################
-######                               RULES                                ######
-################################################################################
 
 all		: \$(NAME)
 
-run		: re
+run		:
+		\$(RM) \$(OBJS_DIR) \$(NAME)
+		@make --no-print-directory all
 		@clear
 		@./\${NAME};
 		@\$(RM) \$(OBJS_DIR) \$(NAME)
 
-test	: re
+test	:
+		\$(RM) \$(OBJS_DIR) \$(NAME)
+		@make --no-print-directory all
 		@clear
-		@.valgrind -s /\${NAME};
+		@valgrind -s ./\${NAME};
 		@\$(RM) \$(OBJS_DIR) \$(NAME)
 
 \$(NAME)	: \$(OBJS)
-		\$(CXX) -o $@ \$^
+		\$(CXX) -o \$@ \$^
 
-\${OBJS_DIR}/%.o: \${SRCS_DIR}/%.cpp
+\${OBJS_DIR}/%.o: %.cpp
 		@mkdir -p \$(dir \$@)
 		\${CXX} \${CXXFLAGS} -c \$< -o \$@
 
@@ -68,11 +64,14 @@ clean	:
 fclean	:
 		\$(RM) \$(OBJS_DIR) \$(NAME)
 
-re		: fclean all
+re		:
+		\$(RM) \$(OBJS_DIR) \$(NAME)
+		@make --no-print-directory all
+
 
 -include \$(DEPS)
 
-.PHONY: all clean fclean re run
+.PHONY: all clean fclean re run test
 EOF
 }
 
